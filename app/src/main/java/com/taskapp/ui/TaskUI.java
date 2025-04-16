@@ -167,6 +167,7 @@ public class TaskUI {
                 System.out.println("1. タスクのステータス変更, 2. メインメニューに戻る");
                 System.out.print("選択肢：");
                 String selectMenu = reader.readLine();
+                System.out.println();
 
                 switch (selectMenu) {
                     case "1":
@@ -183,7 +184,6 @@ public class TaskUI {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            System.out.println();
         }
     }
 
@@ -223,8 +223,9 @@ public class TaskUI {
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (AppException e) {
-                e.printStackTrace();
+                System.err.println(e.getMessage());
             }
+            System.out.println();
         }
     }
 

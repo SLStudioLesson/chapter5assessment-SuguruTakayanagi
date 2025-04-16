@@ -89,8 +89,9 @@ public class TaskDataAccess {
                 String name = values[1];
                 int status = Integer.parseInt(values[2]);
                 int repUserCode = Integer.parseInt(values[3]);
-
-                task = new Task(code, name, status, userDataAccess.findByCode(repUserCode));
+                
+                User user = userDataAccess.findByCode(repUserCode);
+                task = new Task(code, name, status, user);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,7 +109,7 @@ public class TaskDataAccess {
             String writeLine;
             writer.write("Code,Name,Status,Rep_User_Code\n");
             for (Task task : tasks) {
-                if (!(task.getStatus() == updateTask.getStatus())) {
+                if (task.getCode() == updateTask.getCode()) {
                     writeLine = createLine(updateTask);
                 } else {
                     writeLine = createLine(task);
