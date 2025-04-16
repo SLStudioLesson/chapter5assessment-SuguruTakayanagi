@@ -1,5 +1,11 @@
 package com.taskapp.dataaccess;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+import com.taskapp.model.User;
+
 public class UserDataAccess {
     private final String filePath;
 
@@ -21,26 +27,59 @@ public class UserDataAccess {
      * @param password パスワード
      * @return 見つかったユーザー
      */
-    // public User findByEmailAndPassword(String email, String password) {
-    //     try () {
+    public User findByEmailAndPassword(String userEmail, String userPassword) {
+        User user = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            reader.readLine();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                if (!(values.length == 4)) {
+                    continue;
+                }
 
-    //     } catch (IOException e) {
-    //         e.printStackTrace();;
-    //     }
-    //     return null;
-    // }
+                int code = Integer.parseInt(values[0]);
+                String name = values[1];
+                String email = values[2];
+                String password = values[3];
+                
+                if (!(email.equals(userEmail) && password.equals(userPassword))) {
+                    continue;
+                }
+
+                user = new User(code, name, email, password);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 
     /**
      * コードを基にユーザーデータを取得します。
      * @param code 取得するユーザーのコード
      * @return 見つかったユーザー
      */
-    // public User findByCode(int code) {
-    //     try () {
+    public User findByCode(int findCode) {
+        User user = null;
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            reader.readLine();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                int code = Integer.parseInt(values[0]);
+                if (!(code == findCode)) {
+                    continue;
+                }
+                String name = values[1];
+                String email = values[2];
+                String password = values[3];
 
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    //     return null;
-    // }
+                user = new User(code, name, email, password);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
 }
